@@ -1,7 +1,7 @@
 [project]
 name = "CATastrophe"
 version = "0.1.0"
-description = "Our app's objective is to aid people in case of emergencies and natural disasters."
+description = "AI-powered chatbot to aid people in case of emergencies and natural disasters."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

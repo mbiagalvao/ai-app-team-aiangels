@@ -1,3 +1,6 @@
+"""
+streamlit_app.py - Streamlit app to that allows user interaction with our chatbot.
+"""
 import streamlit as st
 import sys
 import os
