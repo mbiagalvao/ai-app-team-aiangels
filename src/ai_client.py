@@ -4,26 +4,25 @@ ai_client.py - Client creation for Google Gemini API using google-generativeai l
 
 import os
 from dotenv import load_dotenv
-import google.generativeai as genai
-from google.genai import errors, types
+from google import genai
+from google.genai import types
 from langfuse import observe
-from utils.prompts import PromptLoader
+from utils import PromptLoader
 
+load_dotenv()
 
 class AIClient:
     """Simple client for Google Gemini API"""
 
-    def __init__(self, model: str = "gemini-2.5-flash-lite"):
+    def __init__(self, model_name: str = "gemini-2.5-flash"):
         """Initialize AI client
         
         Args:
             model: Gemini model to use (default is "gemini-2.5-flash-lite")
         """
-        # Load environment variables
-        load_dotenv()
 
         self.client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-        self.model_name = model
+        self.model_name = model_name
         self.prompts = PromptLoader()
         self.chat_history = []
 
@@ -40,7 +39,12 @@ class AIClient:
         Returns:
             Answer to the user's question
         """
-        system_instruction = self.prompts.load("answer_question_system")
+        system_prompt = self.prompts.format(
+                            "answer_question_system",
+                            disaster = self.extract_disaster_type(message),
+                            location = self.extract_location(message)
+        )
+
         try:
             if use_history and self.chat_history:
                 convo_context = "\n".join(self.chat_history[-10:])
@@ -49,10 +53,11 @@ class AIClient:
                 full_message = message
 
             response = self.client.models.generate_content(
-                contents=full_message,
+                model = self.model_name,
+                contents= full_message,
                 config=types.GenerateContentConfig(
-                    system_instruction=system_instruction,
                     temperature=0.5,
+                    system_instruction=system_prompt
                 )
             )
 
@@ -69,53 +74,7 @@ class AIClient:
         
         except Exception as e:
             return f"Error: {str(e)}"
-
-
-    @observe(as_type="generation")
-    def to_do_list(self, message: str, context: str=None):
-        """
-        Generate a to-do list for a given natural disaster or emergency.
-        
-        Args:
-            message: User request for a to-do list (disaster type included in the message)
-            context: Optional context (possibly retrieved from the vector DB)
-
-        Returns:
-            To-do list as a string    
-        """
-        disaster_type = self.extract_disaster_type(message)
-
-        system_instruction = self.prompts.format(
-            "to_do_list_system",
-            disaster= disaster_type)
-
-        # Format context section
-        user_prompt = message
-        if context:
-            user_prompt = f"{message}\n\nRELEVANT CONTEXT:\n{context}"
-        
-        try:
-            response = self.model.generate_content(
-                contents=user_prompt,
-                config=types.GenerateContentConfig(
-                    system_instruction=system_instruction,
-                    temperature=0.2,
-                )
-            )
-            return response.text
-        except Exception as e:
-            return f"Error: {str(e)}"
-
-
-    def chat_with_history(self, messages):
-        """Chat with conversation history (list of messages)"""
-        try:
-            chat = self.model.start_chat(history=[])
-            response = chat.send_message(messages[-1])  # Send latest message
-            return response.text
-        except Exception as e:
-            return f"Error: {str(e)}"
-    
+  
 
     @observe(as_type="generation")
     def extract_disaster_type(self, message: str) -> str:
@@ -138,17 +97,45 @@ class AIClient:
             response = self.client.models.generate_content(
                 model = self.model_name,
                 contents = extraction_prompt,
-                config=types.GenerateContentConfig(
-                    temperature=0.0,
-                )
+            generation_config=types.GenerateContentConfig(temperature=0.0)
             )
+
             return response.text.strip().lower()
         
         except Exception as e:
             return "general emergency"
 
+    @observe(as_type="generation")
+    def extract_location(self, message: str) -> str:
+        """
+        Extract the user's location from the message
+        
+        Args:
+            message: User message
+        
+        Returns:
+            Extracted location as a string
+    """
+        extraction_prompt = f"""
+            Identify the location of the user mentioned in the message. Return only the location (e.g. "Lisboa", "New York", "London"). If no specific location is mentioned, return "unknown".
+        
+            Message: "{message}"
+            Location:
+        """
+        try:
+            response = self.client.models.generate_content(
+                model = self.model_name,
+                contents = extraction_prompt,
+            generation_config=types.GenerateContentConfig(temperature=0.0)
+            )
+
+            return response.text.strip().lower()
+        
+        except Exception as e:
+            return "unknown"
     
-    @observe(as_type="event") #it is not a generation but we want to track if it is successfully called
+    @observe(as_type="span") #it is not a generation but we want to track if it is successfully called
     def reset_chat_history(self):
         """Reset the chat history"""
         self.chat_history = []
+        return "Chat history cleared."
