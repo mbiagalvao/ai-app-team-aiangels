@@ -3,13 +3,16 @@ quizz_service.py - Service for generating quizzes based on a specific disaster t
 """
 import json
 from services.ai_client import AIClient
+from utils.prompt import PromptLoader
+
+prompts = PromptLoader()
 
 class QuizzService:
-    def __init__(self, disaster_type: str):
-        self.disaster_type = disaster_type
+    def __init__(self, topic: str):
+        self.topic = topic
         self.ai_client = AIClient()
     
-    def generate_quizz(self, disaster_type: str, questions: int = 5):
+    def generate_quizz(self, topic: str, level:str = "medium", questions: int = 5):
         """
         Generate quizzes dynamically based on a specific disaster type.
 
@@ -21,21 +24,7 @@ class QuizzService:
             List of generated quiz questions in a structured format
         """
 
-        system_prompt = """
-            You are an expert in quizzes about natural disasters and emergencies.
-            Generate a multiple-choice quiz with {questions} questions about {disaster_type}.
-            Each question should have 4 options (A, B, C, D) and indicate the correct answer.
-
-            Format the output as the following JSON structure:
-            [
-            {{
-                "question": "Question text",
-                "options": ["A", "B", "C", "D"],
-                "answer": "A"
-            }},
-            ...
-            ]
-        """
+        system_prompt = prompts.load("quiz_system")
     
         response_text = self.ai_client.generate_text(system_prompt)
   
