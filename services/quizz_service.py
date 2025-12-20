@@ -2,15 +2,19 @@
 quizz_service.py - Service for generating quizzes based on a specific disaster type.
 """
 import json
-from services.ai_client import AIClient
+from google import genai
+from google.genai import 
+from google.genai import types
 from utils.prompt import PromptLoader
+
+client = genai.Client()
+model_name = "gemini-2.5-flash"
 
 prompts = PromptLoader()
 
 class QuizzService:
     def __init__(self, topic: str):
         self.topic = topic
-        self.ai_client = AIClient()
     
     def generate_quizz(self, topic: str, level:str = "medium", questions: int = 5):
         """
@@ -26,7 +30,13 @@ class QuizzService:
 
         system_prompt = prompts.load("quiz_system")
     
-        response_text = self.ai_client.generate_text(system_prompt)
+        response_text = response = client.models.generate_content(
+            model = model_name,
+            config=types.GenerateContentConfig(
+                temperature=0.2,
+                system_instruction=system_prompt
+            )
+        )
   
         try:
             quiz = json.loads(response_text)
