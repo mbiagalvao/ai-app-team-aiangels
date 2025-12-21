@@ -16,10 +16,13 @@ def todo_list_tool(disaster_type: str, message: str, location: str = None, conte
     """
     Use this tool ONLY when asked by the user to create a to-do list
     for a specific disaster or emergency. This could be for before, during or after the event.
+    Extract the disaster type and location from the user message if not provided.
+    Extract the context from the vector DB if available.
+    The message is the user query for a to-do list (disaster type included in the message).
 
     Args:
         disaster_type: Type of natural disaster or emergency (e.g., "earthquake", "fire")
-        message: User request for a to-do list (disaster type included in the message)
+        message: User query for a to-do list (disaster type included in the message)
         location: Optional location string
         context: Optional context (possibly retrieved from the vector DB)
     
@@ -28,7 +31,7 @@ def todo_list_tool(disaster_type: str, message: str, location: str = None, conte
     """
     system_prompt = prompts.format(
             "to_do_list_system",
-            disaster= disaster_type)
+            disaster_type= disaster_type)
 
     # Format context section
     user_prompt = message

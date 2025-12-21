@@ -10,7 +10,7 @@ from langfuse import observe
 from utils.prompt import PromptLoader
 #from tools.todo_lists import ToDoList
 #from tools.resources_needed import ResourcesCalculator
-from tools.wrapper import  web_search_tool, weather_tool
+from tools.wrapper import  web_search_tool, weather_tool, rag_tool
 from tools.resources_needed import resources_calculator_tool
 from tools.todo_lists import todo_list_tool
 

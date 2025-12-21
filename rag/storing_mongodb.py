@@ -5,8 +5,8 @@ storing_mongodb.py - Store document chunks with embeddings into MongoDB document
 import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
-from rag.embedder import EmbeddingService
 from rag.loader import extract_pdf
+from rag.embedder import EmbeddingService
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 load_dotenv()  # Load environment variables from .env file
 

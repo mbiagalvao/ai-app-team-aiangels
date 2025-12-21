@@ -11,6 +11,10 @@ def resources_calculator_tool(disaster_type: str, num_people: int) -> dict:
     Use this tool ONLY to calculate, estimate, or compute
     resources and items needed for a 72h emergency kit based on the disaster type and number of people.
     DO NOT use web search.
+    Extract the disaster type and number of people from the user query.
+    If the user does not specify the disaster type, assume "general emergency".
+    If the user does not specify the number of people, ask for the number of people. If still not explicit,
+    assume 1 person.
 
     Args:
         disaster_type: Type of natural disaster or emergency (e.g., "earthquake", "flood")
