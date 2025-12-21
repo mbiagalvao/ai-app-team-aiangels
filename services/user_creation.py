@@ -7,8 +7,8 @@ from bson import ObjectId, SON
 from dotenv import load_dotenv
 
 load_dotenv()
-MONGODB_URI = "mongodb+srv://biadgalvao:1AxYJ1OScM2hnank@cluster0.0cg8hoz.mongodb.net/?appName=Cluster0"
-client = MongoClient(os.getenv("MONGODB_URI"))
+uri = os.getenv("MONGODB_URI").strip()
+client = MongoClient(uri)
 db = client["catastrophe_db"]
 users_collection = db["users"]
 
