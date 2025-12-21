@@ -16,6 +16,6 @@ class User:
         self.email = email
         self.location = location
         self.age = age
-    
+    )
     
     
