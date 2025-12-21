@@ -16,7 +16,6 @@ users_collection = db["users"]
 
 print("✅ Connected to MongoDB")
 
-print(update_profile("69481a50c3bfe0a238773d70", {"city": "Madrid", "country": "Spain"}))
+print(get_profile("69481a50c3bfe0a238773d70"))
 
-print(delete_profile("6948192f9edec5b018156375"))
-
+print(delete_profile("69481a50c3bfe0a238773d70"))
