@@ -1,12 +1,12 @@
 """
 wrapper.py - Wrapper functions for built-in and custom tools' integration to be used by the AI client.
 """
-
 from google import genai
 from importlib_metadata import metadata
 from google.genai import types
 from langfuse import observe
 from services.quizz_service import QuizzService
+from services.weather_report import WeatherReportService
 from rag.rag import run_rag
 from pymongo import MongoClient
 import os
@@ -19,10 +19,13 @@ client = MongoClient(mongo_uri)
 db = client["catastrophe_db"]
 documents = db["documents"]
 
+own_api_key = os.getenv("OPENWEATHERMAP_API_KEY")
+
 
 #Wrapper function that internally uses Google Search built-in tool
 client = genai.Client()
 quiz_service = QuizzService(topic="natural disasters")
+weather_service = WeatherReportService(own_api_key=own_api_key)
 
 #Search the web for current information
 @observe(as_type="tool")
@@ -61,8 +64,22 @@ def web_search_tool(query: str) -> dict:
 
 #Obtain weather information for a specific location
 @observe(as_type="tool")
-def weather_tool():
-    return "Weather tool placeholder"
+def weather_tool(location: str):
+    """
+    Use this tool ONLY if the user asks for a weather report.
+    i.e. 'What is the weather like today?' or 'Is the storm going to get worse?'
+
+    Args:
+        location: user's location to prepare the forecast for
+
+    Returns:
+        Forecast for the next 48 hours.
+
+    Extract the location from the user's query.
+    """
+    weather_data = weather_service.get_owm_forecast(location)
+    forecast = weather_service.get_gemini_summary(weather_data_str=weather_data)
+    return forecast
 
 
 #Generate quizzes about specific disaster types
@@ -70,7 +87,7 @@ def weather_tool():
 def quizz_wrapper_tool(topic: str, level: str = "medium"):
     """
     Generate quizzes about specific disaster types.
-    
+
     ALWAYS use this tool if the user requests:
     - a quiz
     - a test
