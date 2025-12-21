@@ -22,16 +22,17 @@ documents = db["documents"]
 
 #Wrapper function that internally uses Google Search built-in tool
 client = genai.Client()
-quiz_service = QuizzService(disaster_type="natural disasters")
+quiz_service = QuizzService(topic="natural disasters")
 
 #Search the web for current information
 @observe(as_type="tool")
 def web_search_tool(query: str) -> dict:
     """
     Use this tool ONLY when the user asks for current, up-to-date or
-    external information (news, real-time updates and current events).
+    external information (i.e. news, real-time updates and current events).
     DO NOT use this tool to create to-do-lists or calculate resources.
-
+    DO NOT use this tool for generic questions that can be answered without web search.
+    
     Args:
         query: The search query given by the user.
     
@@ -68,8 +69,25 @@ def weather_tool():
 @observe(as_type="tool")
 def quizz_wrapper_tool(topic: str, level: str = "medium"):
     """
-    Use this tool to generate quizzes about specific disaster types.
-    Use ONLY if the user requests a quiz about a specific topic related to disasters and emergencies.
+    Generate quizzes about specific disaster types.
+    
+    ALWAYS use this tool if the user requests:
+    - a quiz
+    - a test
+    - practice questions
+    - multiple-choice questions
+    about a specific disaster or emergency.
+    
+    If the user does not specify a topic, tell them to try out the "Quizzes page".
+    Extract the topic and level from the user's question.
+    If the user does not specify a level, use "medium" as default.
+
+    Args:
+        topic: Topic for the quiz (e.g., "earthquakes", "floods")
+        level: Difficulty level of the quiz ("easy", "medium", "hard")
+    
+    Returns:
+        Generated quiz as a string
     """
     if not topic:
         raise ValueError("Topic is required")
@@ -87,8 +105,9 @@ def quizz_wrapper_tool(topic: str, level: str = "medium"):
 def rag_tool(query: str) -> str:
     """
     RAG tool wrapper for agent.
-    Use this tool to get context for your answers if necessary.
-    It is not necessary to use this tool for general knowledge questions.
+    Use this tool ONLY to get context for your answers IF NECESSARY for crucial information.
+    (i.e., asking for meeting points in Lisbon during an earthquake).
+    Do NOT use this tool for generic questions that do not require specific context.
 
     Args:
         query: user question

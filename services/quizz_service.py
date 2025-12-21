@@ -3,7 +3,6 @@ quizz_service.py - Service for generating quizzes based on a specific disaster t
 """
 import json
 from google import genai
-from google.genai import 
 from google.genai import types
 from utils.prompt import PromptLoader
 
@@ -30,7 +29,7 @@ class QuizzService:
 
         system_prompt = prompts.load("quiz_system")
     
-        response_text = response = client.models.generate_content(
+        response_text = client.models.generate_content(
             model = model_name,
             config=types.GenerateContentConfig(
                 temperature=0.2,
