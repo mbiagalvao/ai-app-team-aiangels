@@ -57,4 +57,3 @@ for d in documents:
     storing_mongodb(d, collection=collection)
 
 print("✅ Stored document embeddings into MongoDB")
-
