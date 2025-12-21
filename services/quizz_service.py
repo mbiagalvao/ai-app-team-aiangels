@@ -7,6 +7,7 @@ import json
 from google import genai
 from google.genai import types
 from utils.prompt import PromptLoader
+from langfuse import observe
 
 load_dotenv()
 

@@ -6,9 +6,11 @@ import os
 from pymongo import MongoClient
 from rag.embedder import EmbeddingService
 from pymongo.collection import Collection
+from langfuse import observe
 
 mongo_uri = os.getenv("MONGODB_URI")
 
+@observe(as_type="retrieve")
 def vector_search(collection: Collection, query_text: str, limit: int = 5):
     embedding_service = EmbeddingService()
 

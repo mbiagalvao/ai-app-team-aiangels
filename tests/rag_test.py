@@ -28,5 +28,5 @@ print(query)
 print("\n=== ANSWER ===")
 print(response)
 print("\n=== SOURCES ===")
-#for i, src in enumerate(response.get("sources", []), 1):
-#    print(f"{i}. {src['text'][:100]}...")
+for i, src in enumerate(response.get("sources", []), 1):
+    print(f"{i}. {src['text'][:100]}...")

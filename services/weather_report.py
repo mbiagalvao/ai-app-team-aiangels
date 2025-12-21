@@ -31,7 +31,7 @@ class WeatherReportService:
         self.google_api_key = GOOGLE_API_KEY
         self.prompts = PromptLoader()
 
-    @observe(as_type="tool")
+    @observe(as_type="retrieve")
     def get_owm_forecast(self, location: str) -> dict:
         """
         Fetch 5-day forecast for a city by first fetching its coordinates.
@@ -63,6 +63,7 @@ class WeatherReportService:
         except httpx.RequestError as e:
             raise Exception(f"Network error connecting to OpenWeatherMap for forecast: {e}")
        
+    @observe(as_type="generation")
     def get_gemini_summary(self, weather_data_str):
         if not self.google_api_key:
             logger.warning("GEMINI_API_KEY not set. Skipping summary.")

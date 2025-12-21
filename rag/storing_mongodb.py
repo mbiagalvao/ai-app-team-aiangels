@@ -8,10 +8,12 @@ from pymongo import MongoClient
 from rag.loader import extract_pdf
 from rag.embedder import EmbeddingService
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langfuse import observe
 load_dotenv()  # Load environment variables from .env file
 
 service = EmbeddingService()
 
+@observe(as_type="event")
 def storing_mongodb(file_path: str, collection):
     """
     Store document chunks with embeddings into MongoDB.
