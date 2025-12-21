@@ -16,6 +16,4 @@ users_collection = db["users"]
 
 print("✅ Connected to MongoDB")
 
-print(get_profile("69481a50c3bfe0a238773d70"))
-
-print(delete_profile("69481a50c3bfe0a238773d70"))
+new_user = create_profile(name="Sofia", email="sofs@gmail.com", country="France", city="Paris", age=23)
