@@ -3,7 +3,7 @@ user_creation.py - User creation for chatbot application
 """
 from pymongo import MongoClient
 import os
-from bson import ObjectId
+from bson import ObjectId, SON
 from dotenv import load_dotenv
 
 load_dotenv()
