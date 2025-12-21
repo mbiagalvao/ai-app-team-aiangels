@@ -42,8 +42,15 @@ def create_profile(name: str, email: str, country: str, city: str, age: int | No
     results = users_collection.insert_one(profile.transform_to_dict()) # does this effectively insert the user into the mongodb col?
     return results.inserted_id
 
-def get_profile(user_id: str) -> dict:
+def get_profile_through_id(user_id: str):
     profile = users_collection.find_one({"_id": ObjectId(user_id)})
+    if not profile:
+        raise ValueError("Profile not found")
+    profile["_id"] = str(profile["_id"])
+    return profile
+
+def get_profile_through_name(name: str):
+    profile = users_collection.find_one({"name": name})
     if not profile:
         raise ValueError("Profile not found")
     profile["_id"] = str(profile["_id"])
