@@ -12,8 +12,6 @@ This application will enable a transition from reaction to action, transforming 
 
 The information provided was retrieved from official, authority and thrustworthy sources, accompanied by a connection to the wide web.The application is designed for 24/7 availability, global usage and multilingual support.
 
-menciono de tar inicial e so docs tugas?????????
-
 This project is provided for educational purposes.
 
 All tools are individually explained.
@@ -22,8 +20,8 @@ All tools are individually explained.
 ## Features
 
 - AI-powered disaster guidance
-- Quizzes feature - to test users' knowledge
-- Weather API connection - to maintain updated meteorology
+- Quizzes - to test users' knowledge
+- Weather API connection - to maintain up-to-date meteorology
 - Global design - to reach worldwide users
 
 ## Tech Stack
@@ -34,7 +32,7 @@ All tools are individually explained.
 - Flask
 
 **Frontend:**
-- Streamlit 
+- React
 
 **Database:**
 - MongoDB
@@ -65,8 +63,8 @@ All tools are individually explained.
 
 1. Clone the repository:
 ```bash
-git clone [your-repo-url]
-cd [project-name]
+git clone https://github.com/mbiagalvao/ai-app-team-aiangels
+cd ai-app-team-aiangels
 ```
 
 2. Install dependencies:
@@ -79,7 +77,6 @@ uv sync
 cp .env.example .env
 # Edit .env with your API keys
 ```
-
 **Required environment variables:**
 ```
 GOOGLE_API_KEY=your_gemini_api_key_here
@@ -105,7 +102,7 @@ and learning what to do in different situations;
 • About us page: Introduction about the company and chatbot.
 
 **Example**
-- Launch the application locally or via deployment
+- Launch the application locally
 - Navigate through the Streamlit interface
 - Enter a query related to disaster preparedness, response, or recovery
 - Interact with the AI assistant
@@ -119,22 +116,26 @@ Screenshots!!!!!!!!!
 
 **Deployment Platform:** Netlify
 
-Instructions for deploying your own instance (if applicable).
 
 ## Project Structure
 
 ```
-!!!!!!!!!!!!confirmar
-project-root/
-├── app.py                 # Main application entry point
-├── services/              # Business logic layer
-├── tools/                 # Function calling tools
-├── utils/                 # Utility functions
+project
+|
 ├── docs/
-│   └── ARCHITECTURE.md    # Architecture decisions and explanations
-├── requirements.txt       # Dependencies
-├── .env.example          # Environment variable template
-└── README.md             # This file
+├── frontend/          
+├── prompts/
+├── rag/                 
+├── services/             
+├── tools/       
+├── utils/
+|               
+├── .env         
+├── .gitignore
+├── frontend_app.py
+├── pyproject.toml  
+├── README.md       
+└── requirements.txt 
 ```
 
 ## Team
@@ -143,3 +144,14 @@ project-root/
 - Team Member 2 - Mª Beatriz Galvao: AI developer
 - Team Member 3 - Mª Eduarda Francisco: product researcher and UI designer
 - Team Member 4 - Sofia Curto: UI/UX developer
+
+### What the AI can do
+- Provide disaster preparedness checklists
+- Suggest response actions during emergencies
+- Explain recovery steps after disasters
+- Use weather and retrieved documents for grounded answers
+
+### What the AI cannot do
+- Replace emergency services
+- Provide medical or legal advice
+- Guarantee real-time accuracy in life-threatening situations
