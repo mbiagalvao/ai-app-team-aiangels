@@ -10,11 +10,14 @@ from langfuse import observe
 from utils.prompt import PromptLoader
 #from tools.todo_lists import ToDoList
 #from tools.resources_needed import ResourcesCalculator
-from tools.wrapper import  web_search_tool, weather_tool
+from tools.wrapper import  web_search_tool, weather_tool, rag_tool
 from tools.resources_needed import resources_calculator_tool
 from tools.todo_lists import todo_list_tool
+from utils.tracing import init_tracing
 
 load_dotenv()
+
+init_tracing()
 
 class AIClient:
     """Simple client for Google Gemini API"""
@@ -46,17 +49,9 @@ class AIClient:
         Returns:
             Answer to the user's question
         """
-        #disaster_type = self.extract_disaster_type(message)
-        #location = self.extract_location(message)
-        
-        #initialize tools
-        #self.todo_list = ToDoList(disaster_type=disaster_type, location=location)
-        #self.resources = ResourcesCalculator(disaster_type=disaster_type)
 
         system_prompt = self.prompts.load(
                             "answer_question_system"
-                            #disaster =disaster_type,
-                            #location = location
         )
 
         try:
@@ -89,10 +84,3 @@ class AIClient:
         
         except Exception as e:
             return f"Error: {str(e)}"  
-
-
-    @observe(as_type="span") #it is not a generation but we want to track if it is successfully called
-    def reset_chat_history(self):
-        """Reset the chat history"""
-        self.chat_history = []
-        return "Chat history cleared."

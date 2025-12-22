@@ -4,11 +4,12 @@ rag.py - Retrieval-Augmented Generation (RAG) implementation using Google GenAI 
 import os
 from dotenv import load_dotenv
 from rag.vector_search import vector_search
-from rag.embedding_service import EmbeddingService
+from rag.embedder import EmbeddingService
 from google import genai
 from google.genai import types
 from utils.prompt import PromptLoader
 from pymongo import MongoClient
+from langfuse import observe
 
 load_dotenv()
 
@@ -20,10 +21,11 @@ prompts = PromptLoader()
 
 #initialize MongoDB client
 mongo_uri = os.getenv("MONGODB_URI")
-client = MongoClient(mongo_uri)
-db = client["catastrophe_db"]
+mongo_client = MongoClient(mongo_uri)
+db = mongo_client["catastrophe_db"]
 documents = db["documents"]
 
+@observe(as_type="generation")
 def run_rag(query: str, collection=documents) -> dict:
     """
     Run Retrieval-Augmented Generation.
@@ -46,9 +48,9 @@ def run_rag(query: str, collection=documents) -> dict:
     try:
         response = client.models.generate_content(
             model = model_name,
+            contents=system_prompt + "\n\n" + query,
             config=types.GenerateContentConfig(
                 temperature=0.0,
-                system_instruction=system_prompt
             )
         )
         return {

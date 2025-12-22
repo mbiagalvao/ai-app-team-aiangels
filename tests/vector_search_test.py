@@ -21,7 +21,7 @@ if mongo_uri:
     
     results = vector_search(collection, query, limit=3)
     
-    print(f"📊 Found {len(results)} similar tickets:\n")
+    print(f"📊 Found {len(results)} similar documents:\n")
     for i, result in enumerate(results, 1):
         score = result['score']
         text = result['text']

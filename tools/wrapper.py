@@ -1,12 +1,12 @@
 """
 wrapper.py - Wrapper functions for built-in and custom tools' integration to be used by the AI client.
 """
-
 from google import genai
 from importlib_metadata import metadata
 from google.genai import types
 from langfuse import observe
 from services.quizz_service import QuizzService
+from services.weather_report import WeatherReportService
 from rag.rag import run_rag
 from pymongo import MongoClient
 import os
@@ -19,19 +19,23 @@ client = MongoClient(mongo_uri)
 db = client["catastrophe_db"]
 documents = db["documents"]
 
+own_api_key = os.getenv("OPENWEATHERMAP_API_KEY")
+
 
 #Wrapper function that internally uses Google Search built-in tool
 client = genai.Client()
-quiz_service = QuizzService(disaster_type="natural disasters")
+quiz_service = QuizzService(topic="natural disasters")
+weather_service = WeatherReportService(own_api_key=own_api_key)
 
 #Search the web for current information
 @observe(as_type="tool")
 def web_search_tool(query: str) -> dict:
     """
     Use this tool ONLY when the user asks for current, up-to-date or
-    external information (news, real-time updates and current events).
+    external information (i.e. news, real-time updates and current events).
     DO NOT use this tool to create to-do-lists or calculate resources.
-
+    DO NOT use this tool for generic questions that can be answered without web search.
+    
     Args:
         query: The search query given by the user.
     
@@ -60,16 +64,47 @@ def web_search_tool(query: str) -> dict:
 
 #Obtain weather information for a specific location
 @observe(as_type="tool")
-def weather_tool():
-    return "Weather tool placeholder"
+def weather_tool(location: str):
+    """
+    Use this tool ONLY if the user asks for a weather report.
+    i.e. 'What is the weather like today?' or 'Is the storm going to get worse?'
+
+    Args:
+        location: user's location to prepare the forecast for
+
+    Returns:
+        Forecast for the next 48 hours.
+
+    Extract the location from the user's query.
+    """
+    weather_data = weather_service.get_owm_forecast(location)
+    forecast = weather_service.get_gemini_summary(weather_data_str=weather_data)
+    return forecast
 
 
 #Generate quizzes about specific disaster types
 @observe(as_type="tool")
 def quizz_wrapper_tool(topic: str, level: str = "medium"):
     """
-    Use this tool to generate quizzes about specific disaster types.
-    Use ONLY if the user requests a quiz about a specific topic related to disasters and emergencies.
+    Generate quizzes about specific disaster types.
+
+    ALWAYS use this tool if the user requests:
+    - a quiz
+    - a test
+    - practice questions
+    - multiple-choice questions
+    about a specific disaster or emergency.
+    
+    If the user does not specify a topic, tell them to try out the "Quizzes page".
+    Extract the topic and level from the user's question.
+    If the user does not specify a level, use "medium" as default.
+
+    Args:
+        topic: Topic for the quiz (e.g., "earthquakes", "floods")
+        level: Difficulty level of the quiz ("easy", "medium", "hard")
+    
+    Returns:
+        Generated quiz as a string
     """
     if not topic:
         raise ValueError("Topic is required")
@@ -87,8 +122,9 @@ def quizz_wrapper_tool(topic: str, level: str = "medium"):
 def rag_tool(query: str) -> str:
     """
     RAG tool wrapper for agent.
-    Use this tool to get context for your answers if necessary.
-    It is not necessary to use this tool for general knowledge questions.
+    Use this tool ONLY to get context for your answers IF NECESSARY for crucial information.
+    (i.e., asking for meeting points in Lisbon during an earthquake).
+    Do NOT use this tool for generic questions that do not require specific context.
 
     Args:
         query: user question
