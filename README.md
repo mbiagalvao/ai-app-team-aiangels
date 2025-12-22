@@ -79,14 +79,6 @@ uv sync
 cp .env.example .env
 # Edit .env with your API keys
 ```
-**Required environment variables:**
-```
-GOOGLE_API_KEY=your_gemini_api_key_here
-LANGFUSE_PUBLIC_KEY=your_langfuse_public_key
-LANGFUSE_SECRET_KEY=your_langfuse_secret_key
-LANGFUSE_HOST=https://cloud.langfuse.com
-# Add other required API keys
-```
 
 4. Run the application:
 ```bash
@@ -138,6 +130,7 @@ project
 |               
 ├── .env         
 ├── .gitignore
+├── ARCHITETURE.md
 ├── frontend_app.py
 ├── pyproject.toml  
 ├── README.md       

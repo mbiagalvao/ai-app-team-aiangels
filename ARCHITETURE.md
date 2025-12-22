@@ -24,8 +24,6 @@ The technical difficulties related to the frontend have more to do with the stru
 
 For the information database, MongoDB was chosen due to the members' familiarity with it. For the Users collection, it was decided that MongoDB would generate the user_ids. Therefore, when creating the functions to handle user profiles, this variable was not explicitly defined; only the fields provided by users on the app’s login page were included (name, email, city, country, and age).
 
-For the Documents Collection, we created a function that implements the document ingestion pipeline responsible for transforming unstructured PDF content into structured, searchable data stored in MongoDB.
-
 
 
 **AI/ML**
@@ -35,4 +33,10 @@ The AI Agent's traces are monitored by the observability platform Langfuse.
 A Weather API was used, because there is a need for access to real-time, historical, and forecast weather data.
 
 RAG was implemented to let our LLM access and use external, up-to-date information to generate more complete and reliable answers to the users' requests.
+
+
+
+**Deployment**
+
+The platform chosen for deployment was Netlify, since this is the most recommend for UI interfaces built in React.
 
