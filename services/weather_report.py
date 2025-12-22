@@ -31,7 +31,7 @@ class WeatherReportService:
         self.google_api_key = GOOGLE_API_KEY
         self.prompts = PromptLoader()
 
-    @observe(as_type="retrieve")
+    @observe(as_type="retriever")
     def get_owm_forecast(self, location: str) -> dict:
         """
         Fetch 5-day forecast for a city by first fetching its coordinates.
@@ -74,7 +74,7 @@ class WeatherReportService:
         try:
             response = self.client.models.generate_content(
                 model = "gemini-2.5-flash",
-                contents= weather_data_str,
+                contents= [str(weather_data_str)],
                 config=types.GenerateContentConfig(
                     temperature=0.1,
                     system_instruction=system_prompt,
