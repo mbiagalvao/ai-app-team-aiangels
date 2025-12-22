@@ -1,47 +1,65 @@
 # CATastrophe
 
-[Brief tagline describing your application]
+CATastrophe assists people in preparing for, responding to, and recovering from natural disasters.
 
 ## Overview
 
-A clear description of what your application does, the problem it solves, and who it's for.
+The target users of the app is anyone who can make use of AI-assisted disaster preparation, emergency response guidance, and post-disaster support, world-wide.
+
+This innovation was inspired by the increase in climate changes driven natural disasters and by the systemic failure to disseminate practical and actionable knowledge regarding preparedness for and response to natural disasters. Our team believes effective risk mitigation continues to be restricted by low disaster literacy at the individual and community levels.
+
+This application will enable a transition from reaction to action, transforming static information into dynamic knowledge.
+
+The information provided was retrieved from official, authority and thrustworthy sources, accompanied by a connection to the wide web.The application is designed for 24/7 availability, global usage and multilingual support.
+
+menciono de tar inicial e so docs tugas?????????
+
+This project is provided for educational purposes.
+
+All tools are individually explained.
+
 
 ## Features
 
-- Key feature 1
-- Key feature 2
-- Key feature 3
-- Highlight what makes your application unique
+- AI-powered disaster guidance
+- Quizzes feature - to test users' knowledge
+- Weather API connection - to maintain updated meteorology
+- Global design - to reach worldwide users
 
 ## Tech Stack
 
 **Backend:**
 - Python
-- Google Gemini API (or alternative LLM)
-- [Other backend technologies]
+- Google Gemini API
+- Flask
 
 **Frontend:**
-- Streamlit (or your chosen framework)
+- Streamlit 
 
 **Database:**
-- MongoDB [Your database choice, if applicable] - eu acho
+- MongoDB
 
 **AI/ML:**
 - Langfuse for observability
-- [Other AI tools: ChromaDB, function calling, etc.]
+- Weather API
+- RAG
+- Function/tool calling
+
 
 ## Architecture
 
-Brief explanation of your application's architecture. Consider including:
-- Architecture diagram (optional but recommended)
+- Architecture diagram 
+<img width="590" height="853" alt="image" src="https://github.com/user-attachments/assets/dd3bdf57-6738-44d2-904c-daded491390b" />
+
 - Layer structure (UI, Service, AI, Tools)
-- Key design decisions and justifications
+<img width="475" height="821" alt="image" src="https://github.com/user-attachments/assets/83c32cfb-7254-41d4-b883-de34fafa61ed" />
+
 
 ## Installation & Setup
 
 ### Prerequisites
 - Python 3.x
-- API keys for [required services]
+- API keys for required services (Google Gemini, Langfuse, Weather API)
 
 ### Installation Steps
 
@@ -77,32 +95,36 @@ uv run streamlit run app.py
 ```
 
 ## Usage
+The UI Layer built in React will have a total of four pages:
+• Main page: Page with the chatbot for the user to make requests and questions;
+the AI Agent strictly answers in text;
+• User page: Page where the user optionally provides his name, age, country and
+city;
+• Quizzes page: Pagewithquizzes for simulating various emergencies related actions
+and learning what to do in different situations;
+• About us page: Introduction about the company and chatbot.
 
-Instructions and examples for using your application. Include:
-- How to navigate the interface
-- Key workflows
-- Screenshots or GIFs demonstrating functionality (recommended for visual clarity)
+**Example**
+- Launch the application locally or via deployment
+- Navigate through the Streamlit interface
+- Enter a query related to disaster preparedness, response, or recovery
+- Interact with the AI assistant
+- Explore quizzes, weather insights, and additional features
 
-**Example:**
-
-1. Navigate to the main page
-2. Upload a document or enter your query
-3. Interact with the AI assistant through the chat interface
-4. View results and explore additional features
-
-*Add screenshots or GIFs here to visually demonstrate your application's key features*
+Screenshots!!!!!!!!! 
 
 ## Deployment
 
-**Live Application:** [Your deployed URL]
+**Live Application:** [Your deployed URL] !!!!!!!!!!!!
 
-**Deployment Platform:** [Streamlit Cloud / Render / Vercel / etc.]
+**Deployment Platform:** Netlify
 
 Instructions for deploying your own instance (if applicable).
 
 ## Project Structure
 
 ```
+!!!!!!!!!!!!confirmar
 project-root/
 ├── app.py                 # Main application entry point
 ├── services/              # Business logic layer
@@ -115,25 +137,9 @@ project-root/
 └── README.md             # This file
 ```
 
-**Note:** Component-level READMEs (e.g., `services/README.md`, `tools/README.md`) are recommended if those components need detailed explanation.
-
 ## Team
 
-- Team Member 1 - [Role/Responsibilities]
-- Team Member 2 - [Role/Responsibilities]
-- Team Member 3 - [Role/Responsibilities]
-- Team Member 4 - [Role/Responsibilities]
-
-## License
-
-[Your chosen license - MIT, Apache, etc. - not necessary]
-
----
-
-## What Makes a Good README?
-
-Your README should answer:
-- **What** does this application do?
-- **Why** does it exist / what problem does it solve?
-- **How** do I run it locally?
-- **Who** built it?
+- Team Member 1 - Ines Chainho: product developer and Q/A tester
+- Team Member 2 - Mª Beatriz Galvao: AI developer
+- Team Member 3 - Mª Eduarda Francisco: product researcher and UI designer
+- Team Member 4 - Sofia Curto: UI/UX developer

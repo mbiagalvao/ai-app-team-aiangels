@@ -7,6 +7,7 @@ import json
 from google import genai
 from google.genai import types
 from utils.prompt import PromptLoader
+from langfuse import observe
 
 load_dotenv()
 
@@ -19,25 +20,14 @@ class QuizzService:
     def __init__(self, topic: str):
         self.topic = topic
     
-    def generate_quizz(self, topic: str = None, questions: int = 5):
+    @observe(as_type="generation")
+    def generate_quizz(self, topic: str = None, questions: int = 5, level: str = "medium"):
         if topic is None:
             topic = self.topic
 
         system_prompt = prompts.load("quiz_system")
         
-        user_prompt = f"""Generate {questions} multiple choice questions about {topic}.
-
-Return ONLY a valid JSON array with this exact format:
-[
-  {{
-    "question": "Question text here?",
-    "answers": ["Option 1", "Option 2", "Option 3", "Option 4"],
-    "correct": 0
-  }}
-]
-
-Where "correct" is the index (0-3) of the correct answer in the "answers" array.
-Do not include any markdown formatting or extra text, just the JSON array."""
+        user_prompt = f"questions={questions}, topic={topic}, level={level}"
 
         response = client.models.generate_content(
             model=model_name,

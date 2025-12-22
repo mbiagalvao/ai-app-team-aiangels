@@ -3,80 +3,86 @@ weather_report.py - Create a weather report with current conditions and a 3 day 
 Article of inspiration used: https://dimasyotama.medium.com/build-an-ai-powered-weather-api-with-python-flask-openweathermap-and-gemini-8e5cbf87af5d
 API service: https://openweathermap.org/
 """
+import httpx
+import logging
 from langfuse import observe
 import os
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
 from utils.prompt import PromptLoader
 
+prompts = PromptLoader()
+
+load_dotenv()
+
 OWM_API_KEY = os.getenv("OPENWEATHERMAP_API_KEY")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
+client = genai.Client(api_key = GOOGLE_API_KEY)
+
+logger = logging.getLogger("WeatherReportService")
+logger.setLevel(logging.INFO)
 
 class WeatherReportService:
     def __init__(self, own_api_key = OWM_API_KEY):
+        self.client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
         self.own_api_key = own_api_key
-        self.gemini_api_key = GEMINI_API_KEY
+        self.google_api_key = GOOGLE_API_KEY
         self.prompts = PromptLoader()
 
-    def get_owm_weather(location):
-        current_url = "http://api.openweathermap.org/data/2.5/weather"
-        #Parameters for the API request
-        params = {'q': location, 'appid': OWM_API_KEY, 'units': 'metric'}
+    @observe(as_type="retrieve")
+    def get_owm_forecast(self, location: str) -> dict:
+        """
+        Fetch 5-day forecast for a city by first fetching its coordinates.
+        """
         try:
-            # Using httpx.Client as a context manager for efficient connection handling
-            with httpx.Client() as client:
-                response = client.get(current_url, params=params)
-                response.raise_for_status() # Raises an HTTPStatusError for 4XX/5XX client/server errors
-            return response.json() # Return the JSON response
-        except httpx.HTTPStatusError as e:
-            app.logger.error(f"HTTPStatusError fetching current weather for {location}: {e}")
-            raise # Re-raise the exception to be handled by the main endpoint
-        except httpx.RequestError as e:
-            # For network errors, DNS failures, etc.
-            app.logger.error(f"RequestError fetching current weather for {location}: {e}")
-            raise Exception(f"Network error connecting to OpenWeatherMap: {e}")
+            #Get latitude and longitude
+            current_url = "http://api.openweathermap.org/data/2.5/weather"
+            params = {'q': location, 'appid': self.own_api_key, 'units': 'metric'}
 
+            with httpx.Client() as wclient:
+                response = wclient.get(current_url, params=params)
+                response.raise_for_status()
+            weather_data = response.json()
+            lat = weather_data['coord']['lat']
+            lon = weather_data['coord']['lon']
 
-    def get_owm_forecast(lat, lon):
-        forecast_url = "http://api.openweathermap.org/data/2.5/forecast" # 5 day / 3 hour forecast
-        params = {'lat': lat, 'lon': lon, 'appid': OWM_API_KEY, 'units': 'metric'}
-        try:
-            with httpx.Client() as client:
-                response = client.get(forecast_url, params=params)
+            # Step 2: Fetch forecast using coordinates
+            forecast_url = "http://api.openweathermap.org/data/2.5/forecast"
+            params_forecast = {'lat': lat, 'lon': lon, 'appid': self.own_api_key, 'units': 'metric'}
+
+            with httpx.Client() as wclient:
+                response = wclient.get(forecast_url, params=params_forecast)
                 response.raise_for_status()
             return response.json()
+
         except httpx.HTTPStatusError as e:
-            app.logger.error(f"HTTPStatusError fetching forecast for {lat},{lon}: {e}")
+            logger.error(f"HTTPStatusError fetching forecast for {location}: {e}")
             raise
         except httpx.RequestError as e:
-            app.logger.error(f"RequestError fetching forecast for {lat},{lon}: {e}")
             raise Exception(f"Network error connecting to OpenWeatherMap for forecast: {e}")
-        
-    def get_gemini_summary(weather_data_str):
-    if not GEMINI_API_KEY:
-        app.logger.warning("GEMINI_API_KEY not set. Skipping summary.")
-        return "AI summary feature disabled: Gemini API key not set."
+       
+    @observe(as_type="generation")
+    def get_gemini_summary(self, weather_data_str):
+        if not self.google_api_key:
+            logger.warning("GEMINI_API_KEY not set. Skipping summary.")
+            return "AI summary feature disabled: Google API key not set."
     
-    try:
-        genai.configure(api_key=GEMINI_API_KEY)
-        # Choose your preferred model. 'gemini-1.5-flash-latest' is a good, fast option.
-        # The original code used 'gemini-2.0-flash-thinking-exp', which might be an internal or specific version.
-        # Let's use a generally available one like 'gemini-1.5-flash-latest' or 'gemini-pro'.
-        model = genai.GenerativeModel(model_name='gemini-1.5-flash-latest')
+        system_prompt = prompts.load("weather_system")
         
-        # Craft a good prompt!
-        prompt = (
-            f"You are a friendly weather assistant. Based on this weather data string: "
-            f"'{weather_data_str}', provide a short, engaging weather summary "
-            f"(1-2 sentences) for the general public. Include one small, actionable "
-            f"tip for the day (e.g., 'Don't forget your umbrella!' or 'Perfect day for a walk!')."
-        )
+        try:
+            response = self.client.models.generate_content(
+                model = "gemini-2.5-flash",
+                contents= weather_data_str,
+                config=types.GenerateContentConfig(
+                    temperature=0.1,
+                    system_instruction=system_prompt,
+                )
+            )
         
-        response = model.generate_content(prompt)
-        return response.text
+            return response.text
     
-    except Exception as e:
-        app.logger.error(f"Error with Gemini API: {e}")
-        # Check for specific Gemini API errors if the SDK provides them
-        # For example, if e has a 'message' attribute:
-        # return f"AI summary currently unavailable. Error: {getattr(e, 'message', str(e))}"
-        return "Summary currently unavailable due to an error."
-
+        except Exception as e:
+            logger.error(f"Error with Gemini API: {e}")
+            return "Summary currently unavailable due to an error."

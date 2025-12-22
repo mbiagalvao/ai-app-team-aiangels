@@ -89,10 +89,3 @@ class AIClient:
         
         except Exception as e:
             return f"Error: {str(e)}"  
-
-
-    @observe(as_type="span") #it is not a generation but we want to track if it is successfully called
-    def reset_chat_history(self):
-        """Reset the chat history"""
-        self.chat_history = []
-        return "Chat history cleared."
