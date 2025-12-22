@@ -106,11 +106,11 @@ and learning what to do in different situations;
 - Interact with the AI assistant
 - Explore quizzes, weather insights, and additional features
 
-Screenshots!!!!!!!!! 
+
 
 ## Deployment
 
-**Live Application:** [Your deployed URL] !!!!!!!!!!!!
+**Live Application:** https://catastrophe-aiangels.netlify.app/
 
 **Deployment Platform:** Netlify
 
@@ -120,21 +120,22 @@ Screenshots!!!!!!!!!
 ```
 project
 |
-├── docs/
-├── frontend/          
-├── prompts/
-├── rag/                 
-├── services/             
-├── tools/       
-├── utils/
+├── docs/              # Documents retrieved from the web
+├── frontend/          # Frontend components
+├── prompts/           # Prompts for content generation
+├── rag/               # Rag functionalities
+├── services/          # Business logic and external integrations
+├── tests/             # Function calling to test our tools
+├── tools/             # Code for AI Agent's tools
+├── utils/             # Prompt and tracing functions
 |               
-├── .env         
+├── .env               # Configuration file used to store environment variables
 ├── .gitignore
-├── ARCHITETURE.md
-├── frontend_app.py
-├── pyproject.toml  
-├── README.md       
-└── requirements.txt 
+├── ARCHITETURE.md     # Architecture decisions and technical justifications
+├── frontend_app.py    # Single entry point file for the frontend
+├── pyproject.toml     # Configuration file
+├── README.md          # Comprehensive overview and setup instructions
+└── requirements.txt   # Dependencies
 ```
 
 ## Team

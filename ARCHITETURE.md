@@ -6,7 +6,7 @@ The aim of our CATastrophe app is to assist people in preparing for, responding 
 
 **Backend**
 
-To build the backend of our app, Python was used in VS Code and Git Hub, so all members could code at the same time. Google Gemini API was chosen to ensure alignment with the course methodology, and also due to the fact that it is a free API developer tool.
+To build the backend of our app, Python was used in VS Code and GitHub, so all members could code at the same time. Google Gemini API was chosen to ensure alignment with the course methodology, and also due to the fact that it is a free API developer tool.
 
 Some of the more challenging decisions during backend development involved choosing which tools were truly necessary to implement, given that AI agents already provide certain built-in capabilities, such as returning answers in a step-by-step format. Nevertheless, it was decided to implement the todo_lists tool, as it was required for the AI agent to retrieve context-relevant documents from the vector database, enabling more complete and accurate responses. For this reason, we used a wrapper tool to combine our custom tools with content-generation tools, such as websearch, which retrieves information from the web; rag, which retrieves data from the vector database; quiz_service and weather_report. All of these processes result in API calls.
 
@@ -22,7 +22,11 @@ The technical difficulties related to the frontend have more to do with the stru
 
 **Database**
 
-For the information database, MongoDB was chosen due to the members' familiarity with it. For the Users collection, it was decided that MongoDB would generate the user_ids. Therefore, when creating the functions to handle user profiles, this variable was not explicitly defined; only the fields provided by users on the app’s login page were included (name, email, city, country, and age).
+For the information database, MongoDB was chosen due to the members' familiarity with it.
+
+For the Users collection, it was decided that MongoDB would generate the user_ids. Therefore, when creating the functions to handle user profiles, this variable was not explicitly defined; only the fields provided by users on the app’s login page were included (name, email, city, country, and age).
+
+The Documents collection was loaded with official documents about Portugal and mainly Lisbon, with information such as the current meeting points and instructions for how to deal with specific disasters. Mongo DB was used to save the embedddings of our texts.
 
 
 
