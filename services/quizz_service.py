@@ -33,7 +33,7 @@ class QuizzService:
             model=model_name,
             contents=user_prompt,
             config=types.GenerateContentConfig(
-                temperature=0.7,
+                temperature=0.5,
                 system_instruction=system_prompt
             )
         )
@@ -46,16 +46,15 @@ class QuizzService:
             if response_text.startswith("json"):
                 response_text = response_text[4:].strip()
         
-        print(f"CLEANED RESPONSE: {response_text[:200]}...")
-        
+                
         try:
             quiz_raw = json.loads(response_text)
             
             quiz = []
             for q in quiz_raw:
-                answers = q.get("answers", [])
+                answers = q.get("options", [])
                 
-                # Remove "A. ", "B. ", etc if exists
+                
                 clean_answers = []
                 for ans in answers:
                     if isinstance(ans, str) and len(ans) > 3 and ans[1:3] == ". ":
@@ -69,20 +68,10 @@ class QuizzService:
                     "correct": q.get("correct", 0)
                 })
             
-            print(f"CONVERTED {len(quiz)} questions successfully")
             return quiz
             
         except Exception as e:
-            print(f"Error parsing quiz JSON: {e}")
-            import traceback
-            traceback.print_exc()
-            
-            quiz = [
-                {
-                    "question": f"Sample question {i+1} about {topic}",
-                    "answers": ["Option A", "Option B", "Option C", "Option D"],
-                    "correct": 0
-                }
-                for i in range(questions)
-            ]
-            return quiz
+          print(f"Error parsing quiz JSON: {e}")
+          import traceback
+          traceback.print_exc()
+          raise

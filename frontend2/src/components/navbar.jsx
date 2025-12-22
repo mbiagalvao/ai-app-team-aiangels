@@ -1,6 +1,11 @@
 import React from 'react';
 import catIcon from '../assets/kitty.png';
 
+{/*This is the Navbar component that provides navigation
+ between different pages of the ChatCAT application.
+ It identifies current page and allows users to switch
+ between the main chat, quiz, and about pages.*/}
+
 export default function Navbar({ currentPage, setCurrentPage }) {
   return (
     <nav style={{
@@ -17,7 +22,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
       zIndex: 1000,
       backdropFilter: 'blur(10px)'
     }}>
-      {/* Logo */}
+    {/*chatcat logo and title */}
       <div 
         style={{ 
           display: 'flex', 
@@ -27,11 +32,11 @@ export default function Navbar({ currentPage, setCurrentPage }) {
         }}
         onClick={() => setCurrentPage('main')}
       >
-        <img src={catIcon} width={40} height={40} alt="Cat icon" />
-        <span style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>ChatCAT</span>
+        <img src={catIcon} width={43} height={63} alt="Cat icon" />
+        <span style={{ fontSize: '1.7rem', fontWeight: 'bold' }}>ChatCAT</span>
       </div>
 
-      {/* Navigation buttons */}
+      {/*buttons */}
       <div style={{ display: 'flex', gap: '1rem' }}>
         <button
           onClick={() => setCurrentPage('main')}

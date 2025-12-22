@@ -1,8 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import backgroundImage from '../assets/wallpaper.png';
-import catIcon from '../assets/kitty.png';
+import serImage from '../assets/user.png';
 
-export default function Main() {
+{/*This is the Main chat page component that allows users to interact
+ with the ChatCAT AI assistant. It handles user input, displays chat messages,
+ and manages the conversation state.*/}
+
+
+export default function Main({ onNavigate, user }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -37,7 +42,7 @@ export default function Main() {
     
     setLoading(false);
   };
-
+  { /*main container*/}
   return ( 
     <div 
       style={{ 
@@ -68,7 +73,7 @@ export default function Main() {
         paddingTop: '7rem'
       }}>
                 
-        {/* Container das mensagens */}
+        {/*messages container*/}
         <div style={{ 
           display: 'flex',
           justifyContent: 'center',
@@ -85,7 +90,8 @@ export default function Main() {
               border: '2px solid #f4bf41',
               overflowY: 'auto',
               overflowX: 'hidden',
-              padding: '15px'
+              padding: '15px',
+              paddingTop: '80px'
             }}
           >
             {messages.map((msg, i) => (
@@ -114,12 +120,12 @@ export default function Main() {
               </div>
             ))}
 
-            {loading && <div style={{ color: '#6b7280' }}>AI is thinking...</div>}
+            {loading && <div style={{ color: '#6b7280' }}>ChatCat is thinking...</div>}
             <div ref={messagesEndRef} />
           </div>
         </div>
 
-        {/* Input */}
+        {/*input*/}
         <div style={{ 
           display: 'flex',
           justifyContent: 'center',
@@ -145,6 +151,8 @@ export default function Main() {
                 padding: '0.5rem 1rem' 
               }}
             />
+
+            {/*send button*/}
             <button 
               onClick={sendMessage}
               style={{
@@ -163,7 +171,32 @@ export default function Main() {
             >
               Send
             </button>
-          </div>
+            
+            {/*login button */}
+            <div onClick={() => onNavigate('login')}
+              style={{
+                position: 'fixed',     
+                top: '110px',                 
+                left: '30px',                
+                zIndex: 200,
+                color: 'black',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                cursor: 'pointer',
+                fontWeight: '600',
+              }}
+              
+            >
+            <img src={serImage} width={20} height={20} alt="User Icon" />
+            <span style={{ textDecoration: 'underline', 
+              fontSize: '20px'
+             }}>
+              
+              User Login
+             </span>
+           </div>
+         </div>
         </div>
       </div>
     </div>

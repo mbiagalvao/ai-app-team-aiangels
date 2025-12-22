@@ -45,11 +45,61 @@ def generate_quiz():
         
         return jsonify(result)
 
+
     except Exception as e:
         print(f"Erro ao gerar quiz: {e}")
         import traceback
         traceback.print_exc()  # <-- Adiciona isto para ver o erro completo
         return jsonify({"error": str(e)}), 500
+from services.user_creation import create_profile, get_profile
+
+@app.route('/user/create', methods=['POST'])
+def create_user():
+    try:
+        data = request.get_json()
+        name = data.get('name')
+        email = data.get('email')
+        country = data.get('country')
+        city = data.get('city')
+        age = data.get('age')
+        
+        user_id = create_profile(name, email, country, city, age)
+        
+        return jsonify({"user_id": str(user_id)}), 201
+    except Exception as e:
+        print(f"Error creating user: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/user/login', methods=['POST'])
+def login_user():
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        
+        # Procura user por email
+        from services.user_creation import users_collection
+        user = users_collection.find_one({"email": email})
+        
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+        
+        user["_id"] = str(user["_id"])
+        return jsonify(user), 200
+        
+    except Exception as e:
+        print(f"Error logging in: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/user/<user_id>', methods=['GET'])
+def get_user(user_id):
+    try:
+        user = get_profile(user_id)
+        return jsonify(user), 200
+    except Exception as e:
+        print(f"Error getting user: {e}")
+        return jsonify({"error": str(e)}), 404    
 
 
 if __name__ == "__main__":

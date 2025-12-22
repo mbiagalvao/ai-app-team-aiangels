@@ -41,7 +41,7 @@ class User:
 @observe(as_type="event")
 def create_profile(name: str, email: str, country: str, city: str, age: int | None = None):
     profile = User(name = name, email = email, country = country, city = city, age = age)
-    results = users_collection.insert_one(profile.transform_to_dict()) # does this effectively insert the user into the mongodb col?
+    results = users_collection.insert_one(profile.transform_to_dict()) 
     return results.inserted_id
 
 @observe(as_type="retrieve")

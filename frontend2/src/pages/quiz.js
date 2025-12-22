@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import backgroundImage from '../assets/wallpaper.png';
+
+{/*This is the Quiz page component that fetches 
+quiz questions from the backend, 
+displays them to the user, and handles user interactions 
+such as answering questions and showing the final score.*/}
 
 export default function Quiz({ onBack }) {
   const [questions, setQuestions] = useState([]);
@@ -65,15 +71,24 @@ export default function Quiz({ onBack }) {
 
   if (loading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(to bottom, #fef3c7, #fed7aa)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: '80px'
-      }}>
-        <h2 style={{ fontSize: '1.5rem', color: '#1f2937' }}>Loading...</h2>
+      <div style={{ 
+              backgroundImage: `url(${backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              alignItems: 'center',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              display: 'flex',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              margin: 0,
+              padding: 0
+            }} >
+        <h2 style={{ fontSize: '1.5rem', color: '#1f2937' }}> Loading questions... Thank you for your patience!</h2>
       </div>
     );
   }
@@ -82,16 +97,20 @@ export default function Quiz({ onBack }) {
     return (
       <div style={{
         minHeight: '100vh',
-        background: 'linear-gradient(to bottom, #fef3c7, #fed7aa)',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        flexDirection: 'column',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: '80px'
       }}>
         <div style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>No questions available</p>
+          <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>No questions available :(</p>
           <button onClick={resetQuiz} style={{
-            backgroundColor: '#ffa500',
+            backgroundColor: '#f4bf41',
             color: 'white',
             padding: '0.75rem 1.5rem',
             borderRadius: '0.5rem',
@@ -110,8 +129,11 @@ export default function Quiz({ onBack }) {
     return (
       <div style={{
         minHeight: '100vh',
-        background: 'linear-gradient(to bottom, #fef3c7, #fed7aa)',
-        display: 'flex',
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '2rem',
@@ -126,13 +148,13 @@ export default function Quiz({ onBack }) {
           width: '100%',
           boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
         }}>
-          <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Quiz Completed!</h1>
+          <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}> Quiz ended! </h1>
           <p style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>
             Score: {score} / {questions.length}
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
             <button onClick={resetQuiz} style={{
-              backgroundColor: '#ffa500',
+              backgroundColor: '#f4bf41',
               color: 'white',
               padding: '0.75rem 1.5rem',
               borderRadius: '0.5rem',
@@ -166,7 +188,10 @@ export default function Quiz({ onBack }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(to bottom, #fef3c7, #fed7aa)',
+      backgroundImage: `url(${backgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
