@@ -13,7 +13,7 @@ load_dotenv()  # Load environment variables from .env file
 
 service = EmbeddingService()
 
-@observe(as_type="event")
+@observe(as_type="span")
 def storing_mongodb(file_path: str, collection):
     """
     Store document chunks with embeddings into MongoDB.

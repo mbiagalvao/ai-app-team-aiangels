@@ -10,7 +10,7 @@ from langfuse import observe
 
 mongo_uri = os.getenv("MONGODB_URI")
 
-@observe(as_type="retrieve")
+@observe(as_type="retriever")
 def vector_search(collection: Collection, query_text: str, limit: int = 5):
     embedding_service = EmbeddingService()
 

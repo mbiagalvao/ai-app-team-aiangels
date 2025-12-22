@@ -8,9 +8,15 @@ from flask_cors import CORS
 
 from services.ai_client import AIClient
 from services.quizz_service import QuizzService
+from services.user_creation import create_profile, get_profile, users_collection
 
 app = Flask(__name__)
-CORS(app)
+
+CORS(app, origins=[
+    "http://localhost:3000",  
+    "https://*.netlify.app"   
+])
+
 
 ai = AIClient()
 
@@ -23,8 +29,12 @@ def chat():
     if not user_message:
         return jsonify({"error": "Message is required"}), 400
 
-    ai_response = ai.answer_question(user_message)
-    return jsonify({"response": ai_response})
+    try:
+        ai_response = ai.answer_question(user_message)
+        return jsonify({"response": ai_response})
+    except Exception as e:
+        print(f"Error creating chat: {e}")
+        return jsonify({"error": "Failed to process message"}), 500
 
 
 @app.route('/quiz/generate', methods=['POST'])
@@ -36,23 +46,16 @@ def generate_quiz():
 
         quiz_service = QuizzService(topic=topic)
         quiz_data = quiz_service.generate_quizz(topic=topic, questions=num_questions)
-
-        print("QUIZ DATA:", quiz_data)
-        print("TYPE:", type(quiz_data))
         
-        result = {"questions": quiz_data}
-        print("SENDING:", result)  # <-- Adiciona isto
-        
+        result = {"questions": quiz_data}    
         return jsonify(result)
 
 
     except Exception as e:
-        print(f"Erro ao gerar quiz: {e}")
-        import traceback
-        traceback.print_exc()  # <-- Adiciona isto para ver o erro completo
+        print(f"Error creating quiz: {e}")
         return jsonify({"error": str(e)}), 500
-from services.user_creation import create_profile, get_profile
 
+# route to create a new user profile
 @app.route('/user/create', methods=['POST'])
 def create_user():
     try:
@@ -64,13 +67,13 @@ def create_user():
         age = data.get('age')
         
         user_id = create_profile(name, email, country, city, age)
-        
         return jsonify({"user_id": str(user_id)}), 201
+    
     except Exception as e:
         print(f"Error creating user: {e}")
         return jsonify({"error": str(e)}), 500
 
-
+# route to login user by email
 @app.route('/user/login', methods=['POST'])
 def login_user():
     try:
@@ -91,7 +94,7 @@ def login_user():
         print(f"Error logging in: {e}")
         return jsonify({"error": str(e)}), 500
 
-
+#route to get user profile by user_id
 @app.route('/user/<user_id>', methods=['GET'])
 def get_user(user_id):
     try:

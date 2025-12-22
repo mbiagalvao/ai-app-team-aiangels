@@ -13,8 +13,11 @@ from utils.prompt import PromptLoader
 from tools.wrapper import  web_search_tool, weather_tool, rag_tool
 from tools.resources_needed import resources_calculator_tool
 from tools.todo_lists import todo_list_tool
+from utils.tracing import init_tracing
 
 load_dotenv()
+
+init_tracing()
 
 class AIClient:
     """Simple client for Google Gemini API"""
