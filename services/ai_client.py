@@ -49,17 +49,9 @@ class AIClient:
         Returns:
             Answer to the user's question
         """
-        #disaster_type = self.extract_disaster_type(message)
-        #location = self.extract_location(message)
-        
-        #initialize tools
-        #self.todo_list = ToDoList(disaster_type=disaster_type, location=location)
-        #self.resources = ResourcesCalculator(disaster_type=disaster_type)
 
         system_prompt = self.prompts.load(
                             "answer_question_system"
-                            #disaster =disaster_type,
-                            #location = location
         )
 
         try:

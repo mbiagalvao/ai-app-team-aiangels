@@ -31,7 +31,7 @@ export default function Login({ onBack, onLogin }) {
 
     try {
       if (isSignup) {
-        const response = await fetch('http://localhost:5000/user/create', {
+        const response = await fetch('https://chatcat-backend.onrender.com/user/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -47,14 +47,14 @@ export default function Login({ onBack, onLogin }) {
 
         if (response.ok) {
           const userId = data.user_id;
-          const userResponse = await fetch(`http://localhost:5000/user/${userId}`);
+          const userResponse = await fetch(`https://chatcat-backend.onrender.com/user/${userId}`);
           const userData = await userResponse.json();
           onLogin(userData);
         } else {
           setError(data.error || 'Signup failed');
         }
       } else {
-        const response = await fetch(`http://localhost:5000/user/login`, {
+        const response = await fetch(`https://chatcat-backend.onrender.com/user/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: formData.email })
