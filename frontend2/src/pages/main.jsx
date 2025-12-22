@@ -193,7 +193,7 @@ export default function Main({ onNavigate, user }) {
               fontSize: '20px'
              }}>
               
-              User Login
+              Login
              </span>
            </div>
          </div>
