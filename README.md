@@ -79,14 +79,6 @@ uv sync
 cp .env.example .env
 # Edit .env with your API keys
 ```
-**Required environment variables:**
-```
-GOOGLE_API_KEY=your_gemini_api_key_here
-LANGFUSE_PUBLIC_KEY=your_langfuse_public_key
-LANGFUSE_SECRET_KEY=your_langfuse_secret_key
-LANGFUSE_HOST=https://cloud.langfuse.com
-# Add other required API keys
-```
 
 4. Run the application:
 ```bash
@@ -114,13 +106,29 @@ and learning what to do in different situations;
 - Interact with the AI assistant
 - Explore quizzes, weather insights, and additional features
 
-Screenshots!!!!!!!!! 
+
 
 ## Deployment
 
-**Live Application:** [Your deployed URL] !!!!!!!!!!!!
+**Live Application:** https://catastrophe-aiangels.netlify.app/
 
 **Deployment Platform:** Netlify
+
+- About Us page
+![Catastrophe_app_about_us_page](https://github.com/user-attachments/assets/54c89fce-2920-4c65-8f63-80e298b299f0)
+
+- Initial page
+![Catastrophe_app_initial_page](https://github.com/user-attachments/assets/35744390-f105-40c1-b67d-c1db38e0a7f4)
+
+- Login page
+![Catastrophe_app_login_page](https://github.com/user-attachments/assets/c90cd88d-fa12-4073-9c60-4d355a845d28)
+
+- ChatCAT page
+![Catastrophe_app_chatCAT_page](https://github.com/user-attachments/assets/50e3649e-60cb-437e-a536-40b241f43207)
+
+
+- Quiz page
+![Catastrophe_app_quizzes_page](https://github.com/user-attachments/assets/dd8168c6-5a5b-40bf-9a36-426166c72377)
 
 
 ## Project Structure
@@ -128,20 +136,22 @@ Screenshots!!!!!!!!!
 ```
 project
 |
-├── docs/
-├── frontend/          
-├── prompts/
-├── rag/                 
-├── services/             
-├── tools/       
-├── utils/
+├── docs/              # Documents retrieved from the web
+├── frontend/          # Frontend components
+├── prompts/           # Prompts for content generation
+├── rag/               # Rag functionalities
+├── services/          # Business logic and external integrations
+├── tests/             # Function calling to test our tools
+├── tools/             # Code for AI Agent's tools
+├── utils/             # Prompt and tracing functions
 |               
-├── .env         
+├── .env               # Configuration file used to store environment variables
 ├── .gitignore
-├── frontend_app.py
-├── pyproject.toml  
-├── README.md       
-└── requirements.txt 
+├── ARCHITETURE.md     # Architecture decisions and technical justifications
+├── frontend_app.py    # Single entry point file for the frontend
+├── pyproject.toml     # Configuration file
+├── README.md          # Comprehensive overview and setup instructions
+└── requirements.txt   # Dependencies
 ```
 
 ## Team
