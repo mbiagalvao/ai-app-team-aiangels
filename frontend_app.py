@@ -13,7 +13,8 @@ from services.user_creation import create_profile, get_profile, users_collection
 app = Flask(__name__)
 
 CORS(app, origins=[
-    "http://localhost:3000",  
+    "http://localhost:3000",
+    "https://catastrophe-aiangels.netlify.app",  
     "https://*.netlify.app"   
 ])
 
