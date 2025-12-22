@@ -1,14 +1,21 @@
 # CATastrophe
 
+<img width="100" height="150" alt="image" src="https://github.com/user-attachments/assets/2ec02c91-a19f-4501-8a93-c9d6860de462" />
+
 CATastrophe assists people in preparing for, responding to, and recovering from natural disasters.
 
 ## Overview
 
 The target users of the app is anyone who can make use of AI-assisted disaster preparation, emergency response guidance, and post-disaster support, world-wide.
+
 This innovation was inspired by the increase in climate changes driven natural disasters and by the systemic failure to disseminate practical and actionable knowledge regarding preparedness for and response to natural disasters. Our team believes effective risk mitigation continues to be restricted by low disaster literacy at the individual and community levels.
+
 This application will enable a transition from reaction to action, transforming static information into dynamic knowledge.
+
 The information provided was retrieved from official, authority and thrustworthy sources, accompanied by a connection to the wide web.The application is designed for 24/7 availability, global usage and multilingual support
+
 This project is provided for educational purposes.
+
 All components are individually explained.
 
 
