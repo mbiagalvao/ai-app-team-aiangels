@@ -38,13 +38,13 @@ class User:
                 "city": self.city,
                 "age": self.age}
 
-@observe(as_type="event")
+@observe(as_type="span")
 def create_profile(name: str, email: str, country: str, city: str, age: int | None = None):
     profile = User(name = name, email = email, country = country, city = city, age = age)
     results = users_collection.insert_one(profile.transform_to_dict()) # does this effectively insert the user into the mongodb col?
     return results.inserted_id
 
-@observe(as_type="retrieve")
+@observe(as_type="retriever")
 def get_profile(user_id: str) -> dict:
     profile = users_collection.find_one({"_id": ObjectId(user_id)})
     if not profile:
@@ -52,7 +52,7 @@ def get_profile(user_id: str) -> dict:
     profile["_id"] = str(profile["_id"])
     return profile
 
-@observe(as_type="event")
+@observe(as_type="span")
 def update_profile(user_id: str, fields: dict):
     allowed_fields = {"name", "email", "country", "city", "age"} # user_id is unchangeable
     update_dict = {k: v for k, v in fields.items() if k in allowed_fields}
