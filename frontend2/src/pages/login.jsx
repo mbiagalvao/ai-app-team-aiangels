@@ -142,6 +142,7 @@ export default function Login({ onBack, onLogin }) {
                 marginBottom: '1rem',
                 borderRadius: '8px',
                 border: '2px solid #e5e7eb',
+                boxSizing: 'border-box',
                 fontSize: '1rem',
                 transition: 'border-color 0.2s'
               }}
@@ -161,6 +162,7 @@ export default function Login({ onBack, onLogin }) {
               marginBottom: '1rem',
               borderRadius: '8px',
               border: '2px solid #e5e7eb',
+              boxSizing: 'border-box',
               fontSize: '1rem'
             }}
           />
@@ -180,6 +182,7 @@ export default function Login({ onBack, onLogin }) {
                   marginBottom: '1rem',
                   borderRadius: '8px',
                   border: '2px solid #e5e7eb',
+                  boxSizing: 'border-box',
                   fontSize: '1rem'
                 }}
               />
@@ -197,6 +200,7 @@ export default function Login({ onBack, onLogin }) {
                   marginBottom: '1rem',
                   borderRadius: '8px',
                   border: '2px solid #e5e7eb',
+                  boxSizing: 'border-box',
                   fontSize: '1rem'
                 }}
               />
@@ -215,6 +219,7 @@ export default function Login({ onBack, onLogin }) {
                   marginBottom: '1rem',
                   borderRadius: '8px',
                   border: '2px solid #e5e7eb',
+                  boxSizing: 'border-box',
                   fontSize: '1rem'
                 }}
               />
@@ -235,7 +240,8 @@ export default function Login({ onBack, onLogin }) {
               fontWeight: '600',
               fontSize: '1rem',
               marginBottom: '1rem',
-              transition: 'background-color 0.2s'
+              transition: 'background-color 0.2s', 
+              boxSizing: 'border-box'
             }}
           >
             {loading ? 'Please wait...' : (isSignup ? 'Sign Up' : 'Login')}
