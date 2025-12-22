@@ -1,5 +1,7 @@
 # CATastrophe
 
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/2ec02c91-a19f-4501-8a93-c9d6860de462" />
+
 CATastrophe assists people in preparing for, responding to, and recovering from natural disasters.
 
 ## Overview
