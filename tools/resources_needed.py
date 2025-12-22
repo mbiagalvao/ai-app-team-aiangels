@@ -6,7 +6,7 @@ from langfuse import observe
 
     
 @observe(as_type="tool")
-def resources_calculator_tool(disaster_type: str, num_people: int) -> dict:
+def resources_calculator_tool(disaster_type: str | None = None, num_people: int) -> dict:
     """
     Use this tool ONLY to calculate, estimate, or compute
     resources and items needed for a 72h emergency kit based on the disaster type and number of people.
