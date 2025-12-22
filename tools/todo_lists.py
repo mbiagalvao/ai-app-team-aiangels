@@ -12,7 +12,7 @@ client = genai.Client()
 model_name = "gemini-2.5-flash"
 
 @observe(as_type="tool")
-def todo_list_tool(disaster_type: str, message: str, location: str = None, context: str = None) -> str:
+def todo_list_tool(disaster_type: str, message: str, location: str |None = None, context: str |None = None) -> str:
     """
     Use this tool ONLY when asked by the user to create a to-do list
     for a specific disaster or emergency. This could be for before, during or after the event.

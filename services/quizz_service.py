@@ -21,7 +21,7 @@ class QuizzService:
         self.topic = topic
     
     @observe(as_type="generation")
-    def generate_quizz(self, topic: str = None, questions: int = 5, level: str = "medium"):
+    def generate_quizz(self, topic: str |None = None, questions: int = 5, level: str = "medium"):
         if topic is None:
             topic = self.topic
 
