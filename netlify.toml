@@ -1,4 +1,4 @@
 [build]
 base = "frontend2"
-command = "npm run build"
-publish = "frontend2/build"
+command = "CI=false npm run build"
+publish = "build"
