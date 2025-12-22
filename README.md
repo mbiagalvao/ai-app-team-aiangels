@@ -114,6 +114,16 @@ and learning what to do in different situations;
 
 **Deployment Platform:** Netlify
 
+- About Us page
+![Catastrophe_app_about_us_page](https://github.com/user-attachments/assets/54c89fce-2920-4c65-8f63-80e298b299f0)
+- Initial page
+
+- Login page
+
+- ChatCAT page
+
+- Quiz page
+
 
 ## Project Structure
 
